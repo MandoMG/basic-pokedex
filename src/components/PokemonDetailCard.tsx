@@ -1,4 +1,5 @@
 import React from "react";
+import Icon from 'react-native-vector-icons/Feather';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const { width, height } = Dimensions.get('screen');
@@ -28,7 +29,7 @@ const PokemonDetailCard = ({ handleOnPress }: PokemonDetailCardProps) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <TouchableOpacity onPress={handleOnPress}>
-          <Text>Close</Text>
+          <Icon name="x-circle" />
         </TouchableOpacity>
         <Text style={styles.detailTitle}>{mockPokemonData.name}</Text>
         <Text>{`ID: ${mockPokemonData.id}`}</Text>

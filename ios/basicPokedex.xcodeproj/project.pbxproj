@@ -145,7 +145,6 @@
 				313DE5FF65D287AB3EAD1AAC /* Pods-basicPokedex-basicPokedexTests.debug.xcconfig */,
 				4143CE71D4D305A491113916 /* Pods-basicPokedex-basicPokedexTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

@@ -5,7 +5,7 @@ import PokemonListCardItem from './PokemonListCardItem'
 
 interface PokemonListProps {
   pokemonList?: PokemonListItem[];
-  handleOnPress?: () => void;
+  handleOnPress?: (index: number) => void;
 }
 
 export default function PokemonList({ pokemonList, handleOnPress }: PokemonListProps) {
@@ -13,8 +13,8 @@ export default function PokemonList({ pokemonList, handleOnPress }: PokemonListP
     <FlatList
       data={pokemonList}
       keyExtractor={(item) => item.name}
-      renderItem={({ item }) => (
-        <PokemonListCardItem pokemonListItem={item} handleOnPress={handleOnPress} />
+      renderItem={({ item, index }) => (
+        <PokemonListCardItem pokemonListItem={item} pokemonId={index + 1} handleOnPress={handleOnPress} />
       )}
     />
   )

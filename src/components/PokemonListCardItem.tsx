@@ -4,10 +4,11 @@ import { PokemonListItem } from '../interfaces'
 
 interface PokemonListCardItemProps {
   pokemonListItem?: PokemonListItem;
-  handleOnPress?: () => void;
+  pokemonId?: number;
+  handleOnPress?: (index: number) => void;
 }
 
-export default function PokemonListCardItem({ pokemonListItem, handleOnPress }: PokemonListCardItemProps) {
+export default function PokemonListCardItem({ pokemonListItem, pokemonId, handleOnPress }: PokemonListCardItemProps) {
   const formatName = (name: string = '') => {
     return name.charAt(0).toUpperCase() + name.slice(1);
   }
@@ -16,9 +17,11 @@ export default function PokemonListCardItem({ pokemonListItem, handleOnPress }: 
     <View style={{ margin: 12 }}>
       <View style={styles.topShadow}>
         <View style={styles.bottomShadow}>
-          <TouchableOpacity style={styles.inner} onPress={handleOnPress}>
-            <Text style={{ color: 'gray', fontSize: 15 }}>{`${formatName(pokemonListItem?.name)}`}</Text>
-          </TouchableOpacity>
+          {!!handleOnPress && (
+            <TouchableOpacity style={styles.inner} onPress={() => handleOnPress(pokemonId || 0)}>
+              <Text style={{ color: 'gray', fontSize: 15 }}>{`${formatName(pokemonListItem?.name)}`}</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>

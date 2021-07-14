@@ -23,7 +23,7 @@ import PokemonList from './src/components/PokemonList';
 import PokemonDetailCard from './src/components/PokemonDetailCard';
 
 const App = () => {
-  const [pokemonData, setPokemonData] = useState<PokemonData>();
+  const [pokemonId, setPokemonId] = useState<number>();
   const [pokemonList, setPokemonList] = useState<PokemonListItem[]>();
   const [shouldShowDetailCard, setShouldShowDetailCard] = useState(false);
 
@@ -32,15 +32,10 @@ const App = () => {
     setPokemonList(response.data.results);
   }
 
-  const fetchPokemonData = async () => {
-    const response = await Axios.get('https://pokeapi.co/api/v2/pokemon/6/');
-    const pokemonData = {
-      id: response.data.id,
-      name: response.data.name,
-      sprite: response.data.sprites.front_default
-    }
-    setPokemonData(pokemonData);
-  };
+  const handleOnPokemonItemPress = (pokemonIndex: number) => {
+    setPokemonId(pokemonIndex);
+    setShouldShowDetailCard(true);
+  }
 
   useEffect(() => {
     getPokemonList()
@@ -50,10 +45,10 @@ const App = () => {
     <View style={styles.container}>
       <SafeAreaView style={{ alignSelf: 'stretch' }}>
         <View style={{ margin: 20 }}>
-          <PokemonList pokemonList={pokemonList} handleOnPress={() => setShouldShowDetailCard(true)} />
+          <PokemonList pokemonList={pokemonList} handleOnPress={handleOnPokemonItemPress} />
         </View>
         {shouldShowDetailCard && (
-          <PokemonDetailCard handleOnPress={() => setShouldShowDetailCard(false)} />
+          <PokemonDetailCard handleOnPress={() => setShouldShowDetailCard(false)} pokemonId={pokemonId} />
         )}
       </SafeAreaView>
     </View>

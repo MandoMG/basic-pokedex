@@ -1,22 +1,18 @@
 import React from "react";
 import Icon from 'react-native-vector-icons/Feather';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import usePokemonInfo from "../hooks/usePokemonInfo";
 
 const { width, height } = Dimensions.get('screen');
 
-const mockPokemonData = {
-  name: 'Charmander',
-  id: '006',
-  type: 'Fire',
-  height: 6,
-  weight: 85
-}
-
 interface PokemonDetailCardProps {
+  pokemonId?: number;
   handleOnPress?: () => void;
 }
 
-const PokemonDetailCard = ({ handleOnPress }: PokemonDetailCardProps) => {
+const PokemonDetailCard = ({ pokemonId, handleOnPress }: PokemonDetailCardProps) => {
+  const { pokemonData } = usePokemonInfo(pokemonId || 0);
+  // TODO: AM - Get correct conversion formulas
   const getHeightInCm = (height: number) => {
     return height * 10;
   };
@@ -25,23 +21,30 @@ const PokemonDetailCard = ({ handleOnPress }: PokemonDetailCardProps) => {
     return weight / 10;
   };
 
-  return (
+  return !!pokemonData ? (
     <View style={styles.container}>
       <View style={styles.card}>
-        <TouchableOpacity onPress={handleOnPress}>
-          <Icon name="x-circle" />
+        <TouchableOpacity onPress={handleOnPress} style={styles.closeIcon} >
+          <Icon name="x-circle" size={25} />
         </TouchableOpacity>
-        <Text style={styles.detailTitle}>{mockPokemonData.name}</Text>
-        <Text>{`ID: ${mockPokemonData.id}`}</Text>
-        <Text>{mockPokemonData.type}</Text>
-        <Text>{`Height: ${getHeightInCm(mockPokemonData.height)} cm`}</Text>
-        <Text>{`Weight: ${getWeightInKg(mockPokemonData.weight)} kg`}</Text>
+        <Text style={styles.detailTitle}>{pokemonData.name}</Text>
+        <Text>{`ID: ${pokemonData.id}`}</Text>
+        {pokemonData.types.map(type => (
+          <Text>{type}</Text>
+        ))}
+        <Text>{`Height: ${getHeightInCm(pokemonData.height)} cm`}</Text>
+        <Text>{`Weight: ${getWeightInKg(pokemonData.weight)} kg`}</Text>
       </View>
     </View>
-  )
+  ) : (<></>)
 }
 
 const styles = StyleSheet.create({
+  closeIcon: {
+    position: 'absolute',
+    top: '15%',
+    left: '5%'
+  },
   container: {
     position: 'absolute',
     zIndex: 10099,
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     backgroundColor: 'white',
-    paddingVertical: 30,
+    paddingVertical: 25,
     alignItems: 'center',
     borderRadius: 8
   },

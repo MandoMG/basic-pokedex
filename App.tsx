@@ -8,38 +8,24 @@
  * @format
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
-  Image,
   SafeAreaView,
   StyleSheet,
-  Text,
   View
 } from 'react-native';
-import Axios from 'axios';
-import { PokemonData, PokemonListItem } from './src/interfaces';
-import PokemonCard from './src/components/PokemonCard';
 import PokemonList from './src/components/PokemonList';
 import PokemonDetailCard from './src/components/PokemonDetailCard';
+import useMainApp from './src/hooks/useMainApp';
 
 const App = () => {
-  const [pokemonId, setPokemonId] = useState<number>();
-  const [pokemonList, setPokemonList] = useState<PokemonListItem[]>();
-  const [shouldShowDetailCard, setShouldShowDetailCard] = useState(false);
-
-  const getPokemonList = async () => {
-    const response = await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
-    setPokemonList(response.data.results);
-  }
-
-  const handleOnPokemonItemPress = (pokemonIndex: number) => {
-    setPokemonId(pokemonIndex);
-    setShouldShowDetailCard(true);
-  }
-
-  useEffect(() => {
-    getPokemonList()
-  }, []);
+  const {
+    handleOnPokemonItemPress,
+    pokemonId,
+    pokemonList,
+    setShouldShowDetailCard,
+    shouldShowDetailCard
+  } = useMainApp();
 
   return (
     <View style={styles.container}>

@@ -15,9 +15,8 @@ interface PokemonDetailCardProps {
 const PokemonDetailCard = ({ pokemonId, handleOnPress }: PokemonDetailCardProps) => {
   const { pokemonData } = usePokemonInfo(pokemonId || 0);
 
-  // TODO: AM - Get correct conversion formulas
-  const getHeightInCm = (height: number) => {
-    return height * 10;
+  const getHeightInMts = (height: number) => {
+    return Number(height / 10).toFixed(2);
   };
 
   const getWeightInKg = (weight: number) => {
@@ -38,12 +37,12 @@ const PokemonDetailCard = ({ pokemonId, handleOnPress }: PokemonDetailCardProps)
         </View>
         <View style={{ flexDirection: 'row', paddingHorizontal: 40, paddingTop: 10 }}>
           <View style={{ flex: 1, alignSelf: 'center' }}>
-            <Text>{`ID: ${pokemonData.id}`}</Text>
-            <Text>{`Height: ${getHeightInCm(pokemonData.height)} cm`}</Text>
+            <Text>{`Height: ${getHeightInMts(pokemonData.height)} m`}</Text>
             <Text>{`Weight: ${getWeightInKg(pokemonData.weight)} kg`}</Text>
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, alignItems: 'center' }}>
             <Image source={{ uri: pokemonData.imageUri }} style={{ height: 150, width: 150 }}></Image>
+            <Text>{`No. ${TextFormatter.padPokemonNumber(pokemonData.id)}`}</Text>
           </View>
         </View>
       </View>

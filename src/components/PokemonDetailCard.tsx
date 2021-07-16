@@ -36,14 +36,17 @@ const PokemonDetailCard = ({ pokemonId, handleOnPress }: PokemonDetailCardProps)
           ))}
         </View>
         <View style={{ flexDirection: 'row', paddingHorizontal: 40, paddingTop: 10 }}>
-          <View style={{ flex: 1, alignSelf: 'center' }}>
+          <View style={styles.pokedexDataWrapper}>
             <Text>{`Height: ${getHeightInMts(pokemonData.height)} m`}</Text>
             <Text>{`Weight: ${getWeightInKg(pokemonData.weight)} kg`}</Text>
           </View>
-          <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={styles.pokedexImageTextWrapper}>
             <Image source={{ uri: pokemonData.imageUri }} style={{ height: 150, width: 150 }}></Image>
-            <Text>{`No. ${TextFormatter.padPokemonNumber(pokemonData.id)}`}</Text>
+            <Text style={{ fontWeight: 'bold' }}>{`No. ${TextFormatter.padPokemonNumber(pokemonData.id)}`}</Text>
           </View>
+        </View>
+        <View style={{ paddingHorizontal: 25, paddingTop: 15 }}>
+          <Text>{pokemonData.description}</Text>
         </View>
       </View>
     </View>
@@ -71,6 +74,14 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     alignItems: 'center',
     borderRadius: 8
+  },
+  pokedexDataWrapper: {
+    flex: 1,
+    alignSelf: 'center'
+  },
+  pokedexImageTextWrapper: {
+    flex: 1,
+    alignItems: 'center'
   },
   detailTitle: {
     fontWeight: 'bold',

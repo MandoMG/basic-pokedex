@@ -40,10 +40,12 @@ const usePokemonInfo = (id: number) => {
     const image =
       pokemonInfoResponse.data.sprites.other['official-artwork']
         .front_default;
+    const descriptionText = String(pokemonDescription[0].flavor_text)
+      .replace(/\n|\r|\f/g, " ");
 
     const pokemonResponse = {
       id: pokemonInfoResponse.data.id,
-      description: pokemonDescription.flavor_text,
+      description: descriptionText,
       height: pokemonInfoResponse.data.height,
       imageUri: image,
       name: pokemonInfoResponse.data.name,

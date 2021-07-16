@@ -1,7 +1,9 @@
 import React from "react";
 import Icon from 'react-native-vector-icons/Feather';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import usePokemonInfo from "../hooks/usePokemonInfo";
+import PokemonTypeComponent from "./PokemonType";
+import TextFormatter from "../util/TextFormatter";
 
 const { width, height } = Dimensions.get('screen');
 
@@ -12,6 +14,7 @@ interface PokemonDetailCardProps {
 
 const PokemonDetailCard = ({ pokemonId, handleOnPress }: PokemonDetailCardProps) => {
   const { pokemonData } = usePokemonInfo(pokemonId || 0);
+
   // TODO: AM - Get correct conversion formulas
   const getHeightInCm = (height: number) => {
     return height * 10;
@@ -27,13 +30,22 @@ const PokemonDetailCard = ({ pokemonId, handleOnPress }: PokemonDetailCardProps)
         <TouchableOpacity onPress={handleOnPress} style={styles.closeIcon} >
           <Icon name="x-circle" size={25} />
         </TouchableOpacity>
-        <Text style={styles.detailTitle}>{pokemonData.name}</Text>
-        <Text>{`ID: ${pokemonData.id}`}</Text>
-        {pokemonData.types.map(type => (
-          <Text>{type}</Text>
-        ))}
-        <Text>{`Height: ${getHeightInCm(pokemonData.height)} cm`}</Text>
-        <Text>{`Weight: ${getWeightInKg(pokemonData.weight)} kg`}</Text>
+        <Text style={styles.detailTitle}>{TextFormatter.capitalizeText(pokemonData.name)}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          {pokemonData.types.map(type => (
+            <PokemonTypeComponent type={type} />
+          ))}
+        </View>
+        <View style={{ flexDirection: 'row', paddingHorizontal: 40, paddingTop: 10 }}>
+          <View style={{ flex: 1, alignSelf: 'center' }}>
+            <Text>{`ID: ${pokemonData.id}`}</Text>
+            <Text>{`Height: ${getHeightInCm(pokemonData.height)} cm`}</Text>
+            <Text>{`Weight: ${getWeightInKg(pokemonData.weight)} kg`}</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Image source={{ uri: pokemonData.imageUri }} style={{ height: 150, width: 150 }}></Image>
+          </View>
+        </View>
       </View>
     </View>
   ) : (<></>)

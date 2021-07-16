@@ -5,6 +5,7 @@ interface PokemonData {
   id: number;
   description: string;
   height: number;
+  imageUri: string;
   name: string;
   weight: number;
   types: string[];
@@ -36,11 +37,15 @@ const usePokemonInfo = (id: number) => {
     const pokemonSpeciesResponse = await Axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
     const pokemonDescription = pokemonSpeciesResponse.data.flavor_text_entries.filter((flavor: any) => flavor.version.name === "red");
     const pokemonTypes = getTypes(pokemonInfoResponse.data.types);
+    const image =
+      pokemonInfoResponse.data.sprites.other['official-artwork']
+        .front_default;
 
     const pokemonResponse = {
       id: pokemonInfoResponse.data.id,
       description: pokemonDescription.flavor_text,
       height: pokemonInfoResponse.data.height,
+      imageUri: image,
       name: pokemonInfoResponse.data.name,
       weight: pokemonInfoResponse.data.weight,
       types: pokemonTypes
